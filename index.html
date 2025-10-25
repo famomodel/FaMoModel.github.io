@@ -1,1 +1,208 @@
-<h1>Hi, Famous Model!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaMo App - Coming Soon</title>
+    
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Inter) --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Apply the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Updated background to a vibrant gradient */
+            background: linear-gradient(135deg, #6a11cb 0%, #fa4c4c 100%);
+        }
+        
+        /* Custom gradient for the hero section */
+        .hero-gradient {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Subtle animation for the form */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        /* Custom shadow */
+        .custom-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        /* Styling for disabled button */
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="text-white"> <!-- Removed bg-gray-100, set default text to white --><!-- Main Content --><main class="flex items-center justify-center min-h-screen p-6">
+        
+        <div class="max-w-6xl w-full mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+            <!-- Left Side: Text Content --><div class="text-center md:text-left">
+                <h1 class="text-5xl md:text-6xl font-black text-white tracking-tighter mb-5"> <!-- Changed text-gray-800 to text-white -->FaMo
+                </h1>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6"> <!-- Changed text-gray-900 to text-white -->Your runway to stardom.
+                </h2>
+                <p class="text-xl text-gray-200 mb-10 leading-relaxed"> <!-- Changed text-gray-600 to text-gray-200 -->The ultimate app for aspiring models is coming soon. Build your portfolio, connect with top agencies, and get exclusive access to castings.
+                </p>
+                <p class="text-lg text-gray-100 font-semibold mb-4"> <!-- Changed text-gray-700 to text-gray-100 -->Be the first to know when we launch.
+                </p>
+
+                <!-- Subscription Form --><form id="subscribe-form" class="flex flex-col sm:flex-row gap-4 fade-in">
+                    <label for="email" class="sr-only">Email address</label>
+                    <!-- Updated input style for dark background --><input type="email" id="email" name="email" 
+                           class="flex-grow w-full px-5 py-4 bg-white/10 border border-gray-400 text-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-white placeholder-gray-300" 
+                           placeholder="Enter your email address" required>
+                    <!-- Updated button style for dark background --><button type="submit" id="submit-button"
+                            class="bg-white text-black font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300">
+                        Notify Me
+                    </button>
+                </form>
+                
+                <!-- Success Message (Hidden by default) --><!-- Updated success message style for dark background --><div id="success-message" class="hidden mt-6 p-4 bg-green-500 text-white rounded-lg fade-in">
+                    <p class="font-semibold">Thank you! You're on the list.</p>
+                    <p class="text-sm">We'll let you know the moment FaMo is live!</p>
+                </div>
+                
+                <!-- Error Message (Hidden by default) --><!-- Updated error message style for dark background --><div id="error-message" class="hidden mt-6 p-4 bg-red-600 text-white rounded-lg fade-in">
+                    <p class="font-semibold">Something went wrong.</p>
+                    <p class="text-sm">Please try again later.</p>
+                </div>
+            </div>
+
+            <!-- Right Side: Image/Mockup --><div class="relative hidden md:flex items-center justify-center p-8">
+                <!-- App Screenshot --><div class="w-80 h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden border-8 border-white flex items-center justify-center">
+                    <img src="https://i.ibb.co/hK78mYw/app-mockup.png" 
+                         alt="FaMo App Mockup" 
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://placehold.co/400x800/333/FFF?text=App+Preview'; this.onerror=null;">
+                </div>
+                <!-- Simple decorative elements --><div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -z-10 opacity-50"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-lg -z-10 opacity-50 transform -rotate-12"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer --><footer class="absolute bottom-0 w-full py-8 text-center">
+        <div class="flex flex-col items-center justify-center gap-4">
+            <!-- Social Icons container --><div class="flex items-center justify-center gap-6">
+                <!-- Instagram Link --><a href="https://www.instagram.com/famo.model/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C8.134 2 7.842 2.012 6.945 2.055c-.93.043-1.567.163-2.12.373a3.593 3.593 0 00-1.28.773 3.593 3.593 0 00-.773 1.28c-.21.553-.33 1.19-.373 2.12C2.012 7.842 2 8.134 2 12s.012 4.158.055 5.055c.043.93.163 1.567.373 2.12a3.593 3.593 0 00.773 1.28c.34.34.77.58 1.28.773.553.21 1.19.33 2.12.373C7.842 21.988 8.134 22 12 22s4.158-.012 5.055-.055c.93-.043 1.567.163 2.12-.373a3.593 3.593 0 001.28-.773 3.593 3.593 0 00.773-1.28c.21-.553.33-1.19.373-2.12C21.988 16.158 22 15.866 22 12s-.012-4.158-.055-5.055c-.043-.93-.163-1.567-.373-2.12a3.593 3.593 0 00-.773-1.28 3.593 3.593 0 00-1.28-.773c-.553-.21-1.19-.33-2.12-.373C16.158 2.012 15.866 2 12 2zm0 1.8c3.803 0 4.091.014 4.88.07 1.03.047 1.63.193 1.99.345.47.202.82.46 1.18.82.36.36.618.71.82 1.18.152.36.298.96.345 1.99.056.789.07 1.077.07 4.88s-.014 4.091-.07 4.88c-.047 1.03-.193 1.63-.345 1.99a2.72 2.72 0 01-.82 1.18 2.72 2.72 0 01-1.18.82c-.36.152-.96.298-1.99.345-.789.056-1.077.07-4.88.07s-4.091-.014-4.88-.07c-1.03-.047-1.63-.193-1.99-.345a2.72 2.72 0 01-1.18-.82 2.72 2.72 0 01-.82-1.18c-.152-.36-.298-.96-.345-1.99-.056-.789-.07-1.077-.07-4.88s.014-4.091.07-4.88c.047-1.03.193 1.63.345 1.99.202-.47.46-.82.82-1.18.36-.36.71-.618 1.18-.82.36-.152.96-.298 1.99.345.789-.056 1.077.07 4.88-.07zm0 4.2a6 6 0 100 12 6 6 0 000-12zm0 10.2a4.2 4.2 0 110-8.4 4.2 4.2 0 010 8.4zm6.435-11.835a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">Instagram</span>
+                </a>
+                
+                <!-- X (Twitter) Link --><a href="https://x.com/famomodel4u" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    <span class="sr-only">X (Twitter)</span>
+                </a>
+            </div>
+
+            <!-- Updated text color for dark background --><p class="text-gray-300">&copy; 2025 FaMo App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK and Form Submission Logic --><script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, addDoc, collection, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        // These global variables are provided by the environment.
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth;
+
+        try {
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            
+            // Enable debug logging for Firestore
+            setLogLevel('Debug');
+
+            // Sign in the user (anonymously or with token)
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+            // If Firebase fails, we can't save emails.
+            // You might want to hide the form or show a general error.
+        }
+
+        // --- Form Submission Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const subscribeForm = document.getElementById('subscribe-form');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            const emailInput = document.getElementById('email');
+            const submitButton = document.getElementById('submit-button');
+
+            subscribeForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent default form submission
+                
+                if (!db) {
+                    console.error("Firestore is not initialized.");
+                    errorMessage.classList.remove('hidden');
+                    return;
+                }
+
+                // Disable button to prevent multiple submissions
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+                errorMessage.classList.add('hidden');
+
+                const email = emailInput.value;
+
+                try {
+                    // Create a reference to the public 'subscribers' collection
+                    const subscribersCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'subscribers');
+
+                    // Add a new document with the email and a server timestamp
+                    await addDoc(subscribersCollectionRef, {
+                        email: email,
+                        subscribedAt: serverTimestamp()
+                    });
+
+                    // On success, hide the form and show the success message
+                    subscribeForm.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    // On failure, show the error message and re-enable the button
+                    errorMessage.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Notify Me";
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
