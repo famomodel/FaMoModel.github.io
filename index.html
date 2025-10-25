@@ -117,89 +117,102 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK and Form Submission Logic --><script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, addDoc, collection, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    // Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, addDoc, collection, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Firebase Configuration ---
-        // These global variables are provided by the environment.
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+// --- Firebase Configuration ---
+// These global variables should be provided by your environment (e.g., Firebase Hosting or build process).
+// For demonstration, you might define them here, but in production, they are usually injected.
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY", // Replace with your project's API Key
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com", // Replace with your project ID
+    projectId: "YOUR_PROJECT_ID", // Replace with your project ID
+    storageBucket: "YOUR_PROJECT_ID.appspot.com", // Replace with your project ID
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Replace with your sender ID
+    appId: "YOUR_APP_ID" // Replace with your web app's App ID
+};
+const appId = "default-app-id"; // As defined in your provided code
+const initialAuthToken = null; // Or retrieve from your environment
 
-        let db, auth;
+let db, auth;
 
-        try {
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            
-            // Enable debug logging for Firestore
-            setLogLevel('Debug');
+// Initialize Firebase and authenticate
+try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    setLogLevel('Debug'); // Enable debug logging for Firestore
 
-            // Sign in the user (anonymously or with token)
-            if (initialAuthToken) {
-                await signInWithCustomToken(auth, initialAuthToken);
-            } else {
-                await signInAnonymously(auth);
-            }
+    if (initialAuthToken) {
+        await signInWithCustomToken(auth, initialAuthToken);
+    } else {
+        await signInAnonymously(auth); // Sign in anonymously for public access
+    }
+} catch (error) {
+    console.error("Firebase initialization failed:", error);
+    // Handle initialization failure (e.g., disable form)
+}
 
-        } catch (error) {
-            console.error("Firebase initialization failed:", error);
-            // If Firebase fails, we can't save emails.
-            // You might want to hide the form or show a general error.
-        }
+// Function to handle email submission to Firestore
+async function subscribeEmailToFirestore(email) {
+    if (!db) {
+        console.error("Firestore is not initialized.");
+        throw new Error("Firestore not ready.");
+    }
 
-        // --- Form Submission Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const subscribeForm = document.getElementById('subscribe-form');
-            const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
-            const emailInput = document.getElementById('email');
-            const submitButton = document.getElementById('submit-button');
+    try {
+        // Create a reference to the public 'subscribers' collection
+        // This path matches your Firestore Security Rules: /artifacts/{appId}/public/data/subscribers
+        const subscribersCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'subscribers');
 
-            subscribeForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Prevent default form submission
-                
-                if (!db) {
-                    console.error("Firestore is not initialized.");
-                    errorMessage.classList.remove('hidden');
-                    return;
-                }
-
-                // Disable button to prevent multiple submissions
-                submitButton.disabled = true;
-                submitButton.textContent = "Submitting...";
-                errorMessage.classList.add('hidden');
-
-                const email = emailInput.value;
-
-                try {
-                    // Create a reference to the public 'subscribers' collection
-                    const subscribersCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'subscribers');
-
-                    // Add a new document with the email and a server timestamp
-                    await addDoc(subscribersCollectionRef, {
-                        email: email,
-                        subscribedAt: serverTimestamp()
-                    });
-
-                    // On success, hide the form and show the success message
-                    subscribeForm.classList.add('hidden');
-                    successMessage.classList.remove('hidden');
-
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    // On failure, show the error message and re-enable the button
-                    errorMessage.classList.remove('hidden');
-                    submitButton.disabled = false;
-                    submitButton.textContent = "Notify Me";
-                }
-            });
+        // Add a new document with the email and a server timestamp
+        await addDoc(subscribersCollectionRef, {
+            email: email,
+            subscribedAt: serverTimestamp() // Uses Firestore's server timestamp for consistency
         });
+
+        console.log("Email subscribed successfully!");
+        return { success: true };
+
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        throw error; // Re-throw the error for the caller to handle
+    }
+}
+
+// Example usage (assuming an HTML form with an email input and submit button)
+document.addEventListener('DOMContentLoaded', () => {
+    const subscribeForm = document.getElementById('subscribe-form');
+    const emailInput = document.getElementById('email');
+    const submitButton = document.getElementById('submit-button');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+
+    if (subscribeForm) {
+        subscribeForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+
+            const email = emailInput.value;
+
+            try {
+                await subscribeEmailToFirestore(email);
+                subscribeForm.classList.add('hidden'); // Hide form on success
+                successMessage.classList.remove('hidden');
+            } catch (error) {
+                errorMessage.classList.remove('hidden');
+                submitButton.disabled = false;
+                submitButton.textContent = "Notify Me";
+            }
+        });
+    }
+});
     </script>
 
 </body>
